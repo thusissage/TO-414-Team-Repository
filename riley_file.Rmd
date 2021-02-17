@@ -49,6 +49,8 @@ ggplot(data = month_arrivals, aes(x = Var1,y = Freq)) +
   geom_bar(stat = "identity")
 ```
 
+This bar graph shoes us the amount of bookings per month, regardless of year. We see that the warmer months, like May, July, and August have the most bookings.
+
 ```{r}
 #Finding and graphing the number of arrivals by year
 year_arrivals <- data.frame(sort(table(hotels$arrival_date_year)))
@@ -57,6 +59,8 @@ ggplot(data = year_arrivals, aes(x = Var1,y = Freq)) +
   geom_bar(stat = "identity")
 ```
 
+This bar graph shows us the total amount of bookings made per year. We can see a steady increase of bookings over the course of three years.
+
 ```{r}
 # Calculating the top 10 countries with hotels
 country_hotels <- data.frame(sort(table(hotels$country), decreasing = TRUE))[1:10,]
@@ -64,6 +68,8 @@ country_hotels <- data.frame(sort(table(hotels$country), decreasing = TRUE))[1:1
 ggplot(data = country_hotels, aes(x = Var1,y = Freq)) +
   geom_bar(stat = "identity")
 ```
+
+From this bar graph, we can see the countries with the top 10 most hotels. The top three countries with the most hotesl are Portugal, Great Britain, and France.
 
 ```{r}
 # Finding the types of hotels
@@ -75,6 +81,8 @@ ggplot(hotel_types, aes(x="", y=Freq, fill=Var1)) +
   geom_bar(width = 1, stat = "identity") +
   coord_polar('y')
 ```
+
+From this pie chart, we can see that the majority of the hotels are city hotels.
 
 # Advanced Data Analysis
 
