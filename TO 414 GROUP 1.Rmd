@@ -1,0 +1,143 @@
+---
+title: "Group Project 1"
+author: "Seungwan Kim"
+date: "2/10/2021"
+output: html_document
+---
+
+## Three different plots (bar chart, Geom point, adding line (geom smooth))
+## For data exploration part, Make a new variable, each hotel (ex), plot some specific data that I can create. 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(dplyr)
+library(rmarkdown)
+hoteldata <- read.csv("hotel_bookings.csv")
+
+```
+
+```{r}
+install.packages("ggplot2")
+```
+
+## Data Structure
+-> Contains 119390 obs and 32 variables. 
+
+```{r}
+str(hoteldata)
+```
+
+##Clean Data
+```{r}
+hoteldata$hotel <- as.factor(hoteldata$hotel)
+hoteldata$arrival_date_month <- as.factor(hoteldata$arrival_date_month)
+hoteldata$arrival_date_year <- as.factor(hoteldata$arrival_date_year)
+hoteldata$meal <- as.factor(hoteldata$meal)
+levels(hoteldata$meal) <- c("BB","FB","HB","SC","SC")
+hoteldata$is_repeated_guest <- as.factor(hoteldata$is_repeated_guest)
+hoteldata$is_canceled <- as.factor(hoteldata$is_canceled)
+hoteldata$assigned_room_type <- as.factor(hoteldata$assigned_room_type)
+
+```
+
+
+#Statistical Summary
+```{r}
+head(hoteldata)
+```
+
+
+
+## Data Exploration
+
+## 1. Booking Status
+```{r}
+hoteldata %>%
+  group_by(is_canceled) %>%
+  count(is_canceled) %>%
+  summarise(round(n/nrow(hoteldata)*100,2), total = n)
+
+```
+Overall, 37% of total customers canceled their bookings.
+
+
+## 2. City Hotel Cancellation
+```{r}
+
+city_canceled <- filter(hoteldata, hotel == "City Hotel")
+table(hoteldata$hotel, hoteldata$is_canceled)
+city_hotel <- ggplot(city_canceled, aes(x=is_canceled)) + geom_bar(aes(fill=is_canceled) ) 
+
+print(city_hotel + labs(y = "Count", x = "Cancelation Status" , title = "City Hotel Cancel"))
+```
+
+
+## 3. Resort Hotel Cancellation
+```{r}
+resort_canceled <- filter(hoteldata, hotel == "Resort Hotel")
+resort_hotel <- ggplot(resort_canceled, aes(x=is_canceled)) + geom_bar(aes(fill=is_canceled) ) 
+
+print(resort_hotel + labs(y = "Count", x = "Is canceled" , title = "Resort Hotel Cancel"))
+```
+0 means customers did not cancel their bookings, while 1 means being canceled.
+
+Customers who were planning to stay in the city hotels tend to cancel bookings more than those planning to stay in the resort hotels.
+
+## 4. Relationship between room type and cancelation
+```{r}
+hoteldata %>%
+  ggplot(aes(x=assigned_room_type, fill=is_canceled)) + geom_bar()
+
+ggplot(hoteldata, aes(x= reserved_room_type, fill = is_canceled)) + geom_bar()
+
+table(hoteldata$assigned_room_type, hoteldata$is_canceled)
+
+```
+According to the data, the type 'A' rooms were the most popular room designs to the visitors, but ironically, it also had the highest cancellation rate proportionally. 
+
+
+## 5. Lead time
+```{r}
+by_leadtime <- tapply(hoteldata$lead_time, hoteldata$arrival_date_month, mean, na.rm = TRUE)
+by_leadtime
+barplot(by_leadtime, main = "Average lead time by Month")
+
+
+
+hoteldata %>%
+  ggplot(aes(x=lead_time,fill=is_canceled))+
+  geom_bar()
+
+
+ggplot(hoteldata, aes(x = lead_time, y = days_in_waiting_list)) + geom_point()
+```
+
+
+We assume that there was a positive correlation between lead time and cancellation, but the data shows that those are not positively correlated. But, we found that customers tend to have a relatively long lead time in the summer seasons. It might be because of the vacation season. 
+
+```{r}
+
+hoteldata %>%
+  ggplot(aes(x=arrival_date_week_number, fill = is_canceled)) + geom_bar()
+lead_by_hotel <- ggplot(hoteldata, aes(x=hotel, y=lead_time))
+lead_by_hotel + geom_boxplot()
+
+table(hoteldata$hotel, hoteldata$arrival_date_month)
+
+```
+
+
+
+```{r}
+hoteldata %>%
+  ggplot(aes(x=arrival_date_month, fill = is_canceled)) + geom_bar()
+
+table(hoteldata$arrival_date_month, hoteldata$is_canceled)
+```
+
+```{r}
+ggplot(hoteldata,aes(x=assigned_room_type, fill=is_repeated_guest)) + geom_bar()
+```
+
+
+
