@@ -22,6 +22,7 @@ install.packages("ggplot2")
 
 ## Data Structure
 -> Contains 119390 obs and 32 variables. 
+TEST
 
 ```{r}
 str(hoteldata)
