@@ -20,7 +20,7 @@ library(ggplot2)#Calls ggplot
 
 ```
 # General Analysis
-
+TEST
 ## Arrival Distribution
 ```{r}
 ggplot(hotels, aes(x = arrival_date_month)) +geom_bar(width = 0.8, fill="blue") +facet_wrap(~hotel) + labs(title = "Monthly Arrival Distribution") + theme(axis.text.x = element_text(angle = 90, hjust = 1)) #Produces barplot of arrivals by month for each hotel
