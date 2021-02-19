@@ -2,7 +2,11 @@
 title: "Riley File"
 author: "Riley Maher"
 date: "2/17/2021"
-output: html_document
+output:
+  html_document:
+    number_sections: True
+    toc: True
+    toc_float: True
 ---
 
 ```{r setup, include=FALSE}
