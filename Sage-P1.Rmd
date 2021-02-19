@@ -11,35 +11,35 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Setup
 ```{r}
-hotel <- read.csv("C:\\Users\\otsage\\Desktop\\WN 2021\\TO\\hotel_bookings.csv") #Reads in Hotel Bookings Data
+hotels <- read.csv("C:\\Users\\otsage\\Desktop\\WN 2021\\TO\\hotel_bookings.csv") #Reads in Hotel Bookings Data
 library(ggplot2)#Calls ggplot
-#rats
+
 ```
 
 Exploring Cancellation 
 ```{r}
-hotel$is_canceled <- as.factor(hotel$is_canceled)
-round(NROW(hotel$is_canceled[hotel$is_canceled == 1])/NROW(hotel$is_canceled), 3) #Returns proportion of bookings that were canceled
+hotels$is_canceled <- as.factor(hotels$is_canceled)
+round(NROW(hotels$is_canceled[hotels$is_canceled == 1])/NROW(hotels$is_canceled), 3) #Returns proportion of bookings that were canceled
 
-round(prop.table(table(hotel$hotel, hotel$is_canceled),1), 3) #Calculates cancellation rates for each hotel
+round(prop.table(table(hotels$hotel, hotels$is_canceled),1), 3) #Calculates cancellation rates for each hotel
 ```
 
 While the overall rate of cancellation is 37%, the rate for City Hotel is slightly higher at 41.7% and the rate for Resort Hotel is slightly lower at 27.8%.
 
 Cancellations - Lead Time
 ```{r}
-ggplot(hotel, aes(x=lead_time, fill= is_canceled)) +geom_histogram(binwidth = 50) #Dist of lead time separated by cancellation
+ggplot(hotels, aes(x=lead_time, fill= is_canceled)) +geom_histogram(binwidth = 50) #Dist of lead time separated by cancellation
 
 ```
 There does not appear to be a significant difference in the distribution of lead time for canceled and non-canceled bookings, with the exeption of the jump in the cancellation rate from a lead time 0-50 to 50-100.
 
 Cancellations- Market Segmentation & Type and Distribution Channel
 ```{r}
-round(prop.table(table(hotel$market_segment, hotel$is_canceled),1), 3) #Calculates cancellation rates by market segment 
+round(prop.table(table(hotels$market_segment, hotels$is_canceled),1), 3) #Calculates cancellation rates by market segment 
 
-round(prop.table(table(hotel$customer_type, hotel$is_canceled),1), 3) #Calculates cancellation by customer type
+round(prop.table(table(hotels$customer_type, hotels$is_canceled),1), 3) #Calculates cancellation by customer type
 
-round(prop.table(table(hotel$distribution_channel, hotel$is_canceled),1), 3) #Calculates cancellation rates by Channel
+round(prop.table(table(hotels$distribution_channel, hotels$is_canceled),1), 3) #Calculates cancellation rates by Channel
 
 ```
 The cancellation rates based on market segment of the customer and the distribution channel the booking was made are quite interesting. For the market segment, the cancellation rates seem fairly consistent with the exception of Group bookings which have a cancellation rate nearly double the nearest segment (Online TA).Interestingly, when broken down into customer type, Group bookings have a much lower cacnelation rate than the group market segment, a possible error is apparent in how the markets are categorized between these two measures (market segment vs customer type descriptions do not provide explanation in Kaggle). 
@@ -48,30 +48,30 @@ We see a similar scenario for the distribution sample, where corporate, direct, 
 
 Cancellations- Deposit Type
 ```{r}
-round(prop.table(table(hotel$deposit_type, hotel$is_canceled),1), 3) #Calculates cancellation rates by deposit type
+round(prop.table(table(hotels$deposit_type, hotels$is_canceled),1), 3) #Calculates cancellation rates by deposit type
 
-plot(round(prop.table(table(hotel$deposit_type, hotel$is_canceled),1), 3), col=c("blue", "red")) #Graphs cancellation rates by deposit type
+plot(round(prop.table(table(hotels$deposit_type, hotels$is_canceled),1), 3), col=c("blue", "red")) #Graphs cancellation rates by deposit type
 
 ```
 The cancellation rates for each deposit type is incredible interesting. Among those with non-refundable deposits almost all of those customers ended up canceling their room (99.4%). Unless the data is labeled incorrectly, this is a very surprising findings, with almost all of those customers losing money and still canceling. 
 
 Cancellations- Past Customer Behavior
 ```{r}
-round(prop.table(table(hotel$is_repeated_guest, hotel$is_canceled),1), 3) #Calculates cancellation rates based on if they are repeat guest
-round(prop.table(table(hotel$previous_cancellations, hotel$is_canceled),1), 3) #Calculates cancellation rates based on number of past canceled stays
-table(hotel$previous_cancellations) #Calculates number of entries for each number of previous cancellations (Note that this isn't perfect since some cancellations likely happened within and outside of the cancellation period resulting in double counting of some people)
+round(prop.table(table(hotels$is_repeated_guest, hotels$is_canceled),1), 3) #Calculates cancellation rates based on if they are repeat guest
+round(prop.table(table(hotels$previous_cancellations, hotels$is_canceled),1), 3) #Calculates cancellation rates based on number of past canceled stays
+table(hotels$previous_cancellations) #Calculates number of entries for each number of previous cancellations (Note that this isn't perfect since some cancellations likely happened within and outside of the cancellation period resulting in double counting of some people)
 ```
 As expected the cancellation rate of customers who have previously stayed in the hotels is lower than those who haven't; by about half (37.8% vs 14.5%).
 Surprisingly, those who have had 1 previous cancellations have a higher rate of cancellation, but for those with 2-11 cancellations the rate is actually lower than people with no cancellations. It is quite interesting that those with more than 14 cancellations have a canclation rate of 100%, you would not expect people to make this many bookings (up to 26) to cancel every single time.
 
 Exploring Arrival Times & Monthly cancellations
 ```{r}
-hotel$arrival_date_month <- as.factor(hotel$arrival_date_month)
-ggplot(hotel, aes(x = arrival_date_month)) +geom_bar(width = 0.8, fill="blue") +facet_wrap(~hotel) + labs(title = "Monthly Arrival Distribution") + theme(axis.text.x = element_text(angle = 90, hjust = 1)) #Produces barplot of arrivals by month for each hotel
+hotels$arrival_date_month <- as.factor(hotels$arrival_date_month)
+ggplot(hotels, aes(x = arrival_date_month)) +geom_bar(width = 0.8, fill="blue") +facet_wrap(~hotel) + labs(title = "Monthly Arrival Distribution") + theme(axis.text.x = element_text(angle = 90, hjust = 1)) #Produces barplot of arrivals by month for each hotel
 
-ggplot(hotel, aes(x=arrival_date_day_of_month, fill = is_canceled)) + geom_histogram() + facet_wrap(~arrival_date_month) + labs(title = "Day of Arrival Distribution")
+ggplot(hotels, aes(x=arrival_date_day_of_month, fill = is_canceled)) + geom_histogram() + facet_wrap(~arrival_date_month) + labs(title = "Day of Arrival Distribution")
 #produces histograms of day of arrival for each month
-round(prop.table(table(hotel$arrival_date_month, hotel$is_canceled),1), 3) #Calculates cancellation rates by month
+round(prop.table(table(hotels$arrival_date_month, hotels$is_canceled),1), 3) #Calculates cancellation rates by month
 
 #Choose not to do distribution by year due to incomplete data for 2015 & 2017
 ```
@@ -80,59 +80,59 @@ When looking towards the monthly distribution for both hotels, the City Hotel pe
 The day of month distribution for each month is interesting, showing that in a majority of the months, arrivals peak between the tenth and twentieth. It should be noted that the separation of the cancellation shows that the cancellations follow the pattern of arrivals, as in when more people are set to arrive, more cancellations occur. The proportion table affirms this finding and is provided to show the exact range of cancellation rates for each month; with a range of 30.5-41.5% of bookings are canceled each month, there appears to be little variation among the rates per month. 
 
 ```{r}
-ggplot(hotel, aes(x=booking_changes, fill = is_canceled)) + geom_histogram() + facet_wrap(~hotel) + coord_cartesian(xlim = c(0,6))
+ggplot(hotels, aes(x=booking_changes, fill = is_canceled)) + geom_histogram() + facet_wrap(~hotel) + coord_cartesian(xlim = c(0,6))
 ```
 
 Exploring Booking Details
 
 Adults, Children, & Babies
 ```{r}
-hotel$guests <- hotel$adults + hotel$children + hotel$babies #creates parameter of all guests on booking
+hotels$guests <- hotels$adults + hotels$children + hotels$babies #creates parameter of all guests on booking
 
-ggplot(data=hotel, aes(adults)) +geom_histogram(binwidth = 1, fill="blue") + coord_cartesian(xlim = c(0,5))+facet_wrap(~hotel)
+ggplot(data=hotels, aes(adults)) +geom_histogram(binwidth = 1, fill="blue") + coord_cartesian(xlim = c(0,5))+facet_wrap(~hotel)
 #Histogram of number adults for each hotel
 
-ggplot(data=hotel, aes(children)) +geom_histogram(binwidth = 1, fill="red") + coord_cartesian(xlim = c(1,5), ylim = c(0,6000))+facet_wrap(~hotel)
+ggplot(data=hotels, aes(children)) +geom_histogram(binwidth = 1, fill="red") + coord_cartesian(xlim = c(1,5), ylim = c(0,6000))+facet_wrap(~hotel)
 #Histogram of number Children for each hotel
 
-ggplot(data=hotel, aes(babies)) +geom_histogram(binwidth = 1, fill="red") + coord_cartesian(xlim = c(1,5), ylim = c(0,750))+facet_wrap(~hotel)
+ggplot(data=hotels, aes(babies)) +geom_histogram(binwidth = 1, fill="red") + coord_cartesian(xlim = c(1,5), ylim = c(0,750))+facet_wrap(~hotel)
 #Histogram of number babies for each hotel
 
-ggplot(data=hotel, aes(guests)) +geom_histogram(binwidth = 1, fill="dark green") + coord_cartesian(xlim = c(0,7))+facet_wrap(~hotel)
+ggplot(data=hotels, aes(guests)) +geom_histogram(binwidth = 1, fill="dark green") + coord_cartesian(xlim = c(0,7))+facet_wrap(~hotel)
 #Histogram of total number of guests for each hotel
 ```
 Above are histograms for the number of adults, children, babies, and all guests total for each hotel. Overwhelmingly the most common amount of adults is two, likely indicating that people typically travel as a couple or partnership. Since such a large portion of people travel without children or babies, the children and babies histogram start at 1. Most bookings with children only have 1, while the proportion of people have two children is much closer to one child for the resort hotel, possibly due to more people traveling to the resort for non-business purposes. For babies, it is overwhelmingly dominated by having only one baby for a booking. Besides the number of children distinction already mentioned, the distributions for each hotel are quite similar.
 
 ```{r}
-ggplot(data = hotel, aes(x=adults, y =children, color = "blue")) + geom_point(alpha=1/5) + coord_cartesian(xlim = c(0,10)) #creates scatter plot of number of adults and children on bookings
+ggplot(data = hotels, aes(x=adults, y =children, color = "blue")) + geom_point(alpha=1/5) + coord_cartesian(xlim = c(0,10)) #creates scatter plot of number of adults and children on bookings
 
-ggplot(data =hotel, aes(x=guests, y=required_car_parking_spaces, color = "blue")) + geom_point(alpha=1/5) #creates scatter plot of guests & number of parking spots required
+ggplot(data =hotels, aes(x=guests, y=required_car_parking_spaces, color = "blue")) + geom_point(alpha=1/5) #creates scatter plot of guests & number of parking spots required
 ```
 
 Meals 
 ```{r}
-table(hotel$meal[hotel$hotel == "City Hotel"])
-table(hotel$meal[hotel$hotel == "Resort Hotel"])
+table(hotels$meal[hotels$hotel == "City Hotel"])
+table(hotels$meal[hotels$hotel == "Resort Hotel"])
 ```
 
 Room Types
 ```{r}
-table(hotel$reserved_room_type[hotel$hotel== "City Hotel"])
-table(hotel$reserved_room_type[hotel$hotel== "Resort Hotel"])
+table(hotels$reserved_room_type[hotels$hotel== "City Hotel"])
+table(hotels$reserved_room_type[hotels$hotel== "Resort Hotel"])
 
 
-hotel$RoomAquired <- ifelse(hotel$reserved_room_type == hotel$assigned_room_type,1,0)
+hotels$RoomAquired <- ifelse(hotels$reserved_room_type == hotels$assigned_room_type,1,0)
 
-round(prop.table(table(hotel$hotel, hotel$RoomAquired), 1), 3)
+round(prop.table(table(hotels$hotel, hotels$RoomAquired), 1), 3)
 
 ```
 As seen above, neither hotel has a 100% record for assigning guests to the rooms they reserved, with Resort Hotel having a slightly worse success rate of 80.7% vs 90.9%.
 
 Special Requests
 ```{r}
-ggplot(data = hotel, aes(total_of_special_requests)) + geom_histogram(fill="blue") + facet_wrap(~hotel)
-plot(hotel$total_of_special_requests,hotel$children)
-plot(hotel$total_of_special_requests,hotel$babies)
+ggplot(data = hotels, aes(total_of_special_requests)) + geom_histogram(fill="blue") + facet_wrap(~hotel)
+plot(hotels$total_of_special_requests,hotels$children)
+plot(hotels$total_of_special_requests,hotels$babies)
 
 
 ```
