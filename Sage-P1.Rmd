@@ -24,40 +24,71 @@ TEST
 
 ## Arrival Distribution
 ```{r}
-ggplot(hotels, aes(x = arrival_date_month)) +geom_bar(width = 0.8, fill="blue") +facet_wrap(~hotel) + labs(title = "Monthly Arrival Distribution") + theme(axis.text.x = element_text(angle = 90, hjust = 1)) #Produces barplot of arrivals by month for each hotel
+ggplot(hotels, aes(x = arrival_date_month)) +
+  geom_bar(width = 0.8, fill="blue") +
+  facet_wrap(~hotel) +
+  labs(title = "Monthly Arrival Distribution") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) #Produces barplot of arrivals by month for each hotel
 
 ```
 When looking towards the monthly distribution for both hotels, the City Hotel peaks in the summer and has lulls in late Fall and Winter. The Resort Hotel follows a similar, yet less volatile pattern. 
 
 GRACE ADD SEASONAL STUFF HERE
-Riley, can also add pie chart in this section. 
 
+
+```{r}
+# Finding the types of hotels
+hotel_types <- data.frame(table(hotels$hotel))
+hotel_types <- hotel_types %>%
+  rename(hotel_type = Var1, number_of_hotels = Freq)
+
+# Creating a pie chart of hotel types
+ggplot(hotel_types, aes(x="", y=number_of_hotels, fill=hotel_type)) +
+  geom_bar(width = 1, stat = "identity", color = "white") +
+  coord_polar('y', start = 0) +
+  geom_text(aes(y = number_of_hotels, label=number_of_hotels), position=position_stack(vjust=0.5), color = "black") +
+  theme_void() +
+  labs(title = "Number of Hotels by Type")
+```
+
+From this pie chart, we can see that there are `r hotel_types[1, 2]` City Hotels and `r hotel_types[2, 2]` Resort Hotels.
 
 # Exploring Cancellation 
 ```{r hotel_cancellation}
-hotels$is_canceled <- as.factor(hotels$is_canceled)
-round(NROW(hotels$is_canceled[hotels$is_canceled == 1])/NROW(hotels$is_canceled), 3) #Returns proportion of bookings that were canceled
+total_cancel_rate <- round(NROW(hotels$is_canceled[hotels$is_canceled == 1])/NROW(hotels$is_canceled), 3)*100 #Returns proportion of bookings that were canceled
+total_cancel_rate
 
-round(prop.table(table(hotels$hotel, hotels$is_canceled),1), 3) #Calculates cancellation rates for each hotel
+cancel_prop <- round(prop.table(table(hotels$hotel, hotels$is_canceled),1)*100, 3) #Calculates cancellation rates for each hotel
+cancel_prop
 
 city_canceled <- filter(hotels, hotel == "City Hotel")
-city_hotel <- ggplot(city_canceled, aes(x=is_canceled)) + geom_bar(aes(fill=is_canceled) ) 
-print(city_hotel + labs(y = "Number of Customers", x = "Bookings" , title = "City Hotels Booking Status")) #Graph to show the city hotel cancellation
+city_hotel <- ggplot(city_canceled, aes(x=is_canceled)) +
+  geom_bar(aes(fill=is_canceled)) +
+  scale_x_discrete(labels=c("Not Canceled", "Canceled")) +
+  scale_fill_discrete(labels=c("Not Canceled", "Canceled")) +
+  labs(y = "Number of Customers", x = "Bookings" , title = "City Hotels Booking Status") #Graph to show the city hotel cancellation
+city_hotel
 
 resort_canceled <- filter(hotels, hotel == "Resort Hotel")
-resort_hotel <- ggplot(resort_canceled, aes(x=is_canceled)) + geom_bar(aes(fill=is_canceled) ) 
-print(resort_hotel + labs(y = "Number of Customers", x = "Bookings" , title = "Resort Hotels Booking Status")) #Graph to show the resort hotel cancellation
-
+resort_hotel <- ggplot(resort_canceled, aes(x=is_canceled)) +
+  geom_bar(aes(fill=is_canceled) ) +
+  scale_x_discrete(labels=c("Not Canceled", "Canceled")) +
+  scale_fill_discrete(labels=c("Not Canceled", "Canceled")) +
+  labs(y = "Number of Customers", x = "Bookings" , title = "Resort Hotels Booking Status") #Graph to show the resort hotel cancellation
+resort_hotel
 ```
 
-While the overall rate of cancellation is 37%, the rate for City Hotel is slightly higher at 41.7% and the rate for Resort Hotel is slightly lower at 27.8%.
-Customers who were planning to stay in the city hotels tend to cancel bookings more than those planning to stay in the resort hotels.
+While the overall rate of cancellation is `r total_cancel_rate`%, the cancellation rate for City Hotels is slightly higher at `r cancel_prop[1, 2]`% and the cancellation rate for Resort Hotels is slightly lower at `r cancel_prop[1, 2]`%.
+Customers who were planning to stay in the city hotels tended to cancel bookings more than those planning to stay in the resort hotels.
 
 ## Lead Time
 ```{r}
-ggplot(hotels, aes(x=lead_time, fill= is_canceled)) +geom_histogram(binwidth = 50) #Dist of lead time separated by cancellation
+ggplot(hotels, aes(x=lead_time, fill= is_canceled)) +
+  scale_fill_discrete(labels=c("Not Canceled", "Canceled")) +
+  geom_histogram(binwidth = 50) #Dist of lead time separated by cancellation
 
-ggplot(hotels, aes(x = lead_time, y = days_in_waiting_list)) + geom_point() # point plot to show the relationship between days in waiting list and lead time
+ggplot(hotels, aes(x = lead_time, y = days_in_waiting_list)) +
+  geom_point() # point plot to show the relationship between days in waiting list and lead time
 
 lead_by_hotel <- ggplot(hotels, aes(x=hotel, y=lead_time))
 lead_by_hotel + geom_boxplot() # Box plot to show the lead time by the hotel types
@@ -73,7 +104,7 @@ round(prop.table(table(hotels$customer_type, hotels$is_canceled),1), 3) #Calcula
 round(prop.table(table(hotels$distribution_channel, hotels$is_canceled),1), 3) #Calculates cancellation rates by Channel
 
 ```
-The cancellation rates based on market segment of the customer and the distribution channel the booking was made are quite interesting. For the market segment, the cancellation rates seem fairly consistent with the exception of Group bookings which have a cancellation rate nearly double the nearest segment (Online TA).Interestingly, when broken down into customer type, Group bookings have a much lower cacnelation rate than the group market segment, a possible error is apparent in how the markets are categorized between these two measures (market segment vs customer type descriptions do not provide explanation in Kaggle). 
+The cancellation rates based on market segment of the customer and the distribution channel the booking was made are quite interesting. For the market segment, the cancellation rates seem fairly consistent with the exception of Group bookings which have a cancellation rate nearly double the nearest segment (Online TA).Interestingly, when broken down into customer type, Group bookings have a much lower cancellation rate than the group market segment, a possible error is apparent in how the markets are categorized between these two measures (market segment vs customer type descriptions do not provide explanation in Kaggle). 
 
 We see a similar scenario for the distribution sample, where corporate, direct, and GDS are all similar, but TA/TO (travel agents/tour operators) channel is nearly double that of any other channel excluding the undefined customers. 
 
@@ -95,14 +126,16 @@ round(prop.table(table(hotels$previous_cancellations, hotels$is_canceled),1), 3)
 table(hotels$previous_cancellations) #Calculates number of entries for each number of previous cancellations (Note that this isn't perfect since some cancellations likely happened within and outside of the cancellation period resulting in double counting of some people)
 ``` 
 As expected the cancellation rate of customers who have previously stayed in the hotels is lower than those who haven't; by about half (37.8% vs 14.5%).
-Surprisingly, those who have had 1 previous cancellations have a higher rate of cancellation, but for those with 2-11 cancellations the rate is actually lower than people with no cancellations. It is quite interesting that those with more than 14 cancellations have a canclation rate of 100%, you would not expect people to make this many bookings (up to 26) to cancel every single time.
-
-
+Surprisingly, those who have had 1 previous cancellations have a higher rate of cancellation, but for those with 2-11 cancellations the rate is actually lower than people with no cancellations. It is quite interesting that those with more than 14 cancellations have a cancellation rate of 100%, you would not expect people to make this many bookings (up to 26) to cancel every single time.
 
 ## Exploring Arrival Times & Monthly cancellations
 ```{r}
-ggplot(hotels, aes(x=arrival_date_day_of_month, fill =is_canceled)) + geom_histogram() + facet_wrap(~arrival_date_month) + labs(title = "Day of Arrival Distribution")
-#produces histograms of day of arrival for each month
+ggplot(hotels, aes(x=arrival_date_day_of_month, fill =is_canceled)) +
+  geom_histogram() +
+  facet_wrap(~arrival_date_month) +
+  scale_fill_discrete(labels=c("Not Canceled", "Canceled")) +
+  labs(title = "Day of Arrival Distribution") #produces histograms of day of arrival for each month
+
 round(prop.table(table(hotels$arrival_date_month, hotels$is_canceled),1), 3) #Calculates cancellation rates by month
 
 #Choose not to do distribution by year due to incomplete data for 2015 & 2017
@@ -112,7 +145,11 @@ The day of month distribution for each month is interesting, showing that in a m
 
 ## Booking Changes
 ```{r}
-ggplot(hotels, aes(x=booking_changes, fill = is_canceled)) + geom_histogram() + facet_wrap(~hotel) + coord_cartesian(xlim = c(0,6))
+ggplot(hotels, aes(x=booking_changes, fill = is_canceled)) +
+  geom_histogram() +
+  facet_wrap(~hotel) +
+  coord_cartesian(xlim = c(0,6)) +
+  scale_fill_discrete(labels=c("Not Canceled", "Canceled"))
 ```
 
 # Exploring Booking Details
@@ -145,8 +182,61 @@ Above the scatter plots are provided comparing the relationship between adults a
 
 ## Meals 
 ```{r}
-#Riley enter meals findings 
+# Seeing the type of meals families with kids buy
+kids <- hotels %>%
+  filter(children > 1)
+
+meals_with_kids <- data.frame(table(kids$meal))
+
+meals_with_kids <- meals_with_kids %>%
+  mutate(meal_percent = round(Freq / nrow(kids), 3)*100) %>%
+  rename(meal_type = Var1, number_of_meals = Freq)
+meals_with_kids
+
+ggplot(meals_with_kids, aes(x="", y=meal_percent, fill=meal_type)) +
+  geom_bar(width = 1, stat = "identity", color = "white") +
+  coord_polar('y', start = 0) +
+  geom_text(aes(y = meal_percent, label=meal_percent), position=position_stack(vjust=0.5), color = "black") +
+  theme_void() +
+  labs(title = "Perentage of Meals Bought by Adults with Kids")
+
+# Seeing the type of meals families with no kids buy
+no_kids <- hotels %>%
+  filter(children == 0)
+
+meals_with_no_kids <- data.frame(table(no_kids$meal))
+
+meals_with_no_kids <- meals_with_no_kids %>%
+  mutate(meal_percent = round(Freq / nrow(no_kids), 3)*100) %>%
+  rename(meal_type = Var1, number_of_meals = Freq)
+meals_with_no_kids
+
+ggplot(meals_with_no_kids, aes(x="", y=meal_percent, fill=meal_type)) +
+  geom_bar(width = 1, stat = "identity", color = "white") +
+  coord_polar('y', start = 0) +
+  geom_text(aes(y = meal_percent, label=meal_percent), position=position_stack(vjust=0.5), color = "black") +
+  theme_void() +
+  labs(title = "Perentage of Meals Bought by Adults with No Kids")
 ```
+
+From these pie charts we can see a notable difference between families who had kids and families who did not have kids when buying meals. The top meal choice of Bed & Breakfast did not change between groups, but the percentage bought did have a marked change. For the adults with kids, `r meals_with_kids[1, 3]`% bought the BB choice, while only `r meals_with_no_kids[1, 3]`% bought the BB choice. It seems that the adults with no kids group had a larger portion opt out of a meal choice (SC with `r meals_with_no_kids[4, 3]`% and Undefined with `r meals_with_no_kids[5, 3]`%) than the group of adults that had kids. This could show that the adults without kids are able to get meals in any means they see necessary, while the adults with kids would probably want convenience over everything while having more mouth to feed.
+
+## Agent Bookings
+```{r}
+# Calculating the average daily rate of bookings that did/didn't use an agent
+mean_adr_agent <- hotels %>%
+  filter(agent != 'NULL') %>%
+  summarize(mean_adr_agent = round(mean(adr, na.rm = TRUE), 2))
+
+mean_adr_no_agent <- hotels %>%
+  filter(agent == 'NULL') %>%
+  summarize(mean_adr_no_agent = round(mean(adr, na.rm = TRUE), 2))
+
+mean_adr_agent
+mean_adr_no_agent
+```
+
+These numbers show us that, people booked with an agent actually paid more per night on average than those that did not book with an agent. If you used and agent, you would have paid \$`r mean_adr_agent[1]` while if you did not use an agent, you would have paid \$`r mean_adr_no_agent[1]`.
 
 ## Room Types
 ```{r}
