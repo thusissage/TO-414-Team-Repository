@@ -15,12 +15,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Setup
 ```{r}
-hotels <- read.csv("C:\\Users\\otsage\\Desktop\\WN 2021\\TO\\hotel_bookings.csv", stringsAsFactors = TRUE) #Reads in Hotel Bookings Data
+hotels <- read.csv("hotel_bookings.csv", stringsAsFactors = TRUE) #Reads in Hotel Bookings Data
 library(ggplot2)#Calls ggplot
-
+library(dplyr)
 ```
 # General Analysis
 TEST
+
 ## Arrival Distribution
 ```{r}
 ggplot(hotels, aes(x = arrival_date_month)) +geom_bar(width = 0.8, fill="blue") +facet_wrap(~hotel) + labs(title = "Monthly Arrival Distribution") + theme(axis.text.x = element_text(angle = 90, hjust = 1)) #Produces barplot of arrivals by month for each hotel
@@ -33,21 +34,35 @@ Riley, can also add pie chart in this section.
 
 
 # Exploring Cancellation 
-```{r}
+```{r hotel_cancellation}
 hotels$is_canceled <- as.factor(hotels$is_canceled)
 round(NROW(hotels$is_canceled[hotels$is_canceled == 1])/NROW(hotels$is_canceled), 3) #Returns proportion of bookings that were canceled
 
 round(prop.table(table(hotels$hotel, hotels$is_canceled),1), 3) #Calculates cancellation rates for each hotel
+
+city_canceled <- filter(hotels, hotel == "City Hotel")
+city_hotel <- ggplot(city_canceled, aes(x=is_canceled)) + geom_bar(aes(fill=is_canceled) ) 
+print(city_hotel + labs(y = "Number of Customers", x = "Bookings" , title = "City Hotels Booking Status")) #Graph to show the city hotel cancellation
+
+resort_canceled <- filter(hotels, hotel == "Resort Hotel")
+resort_hotel <- ggplot(resort_canceled, aes(x=is_canceled)) + geom_bar(aes(fill=is_canceled) ) 
+print(resort_hotel + labs(y = "Number of Customers", x = "Bookings" , title = "Resort Hotels Booking Status")) #Graph to show the resort hotel cancellation
+
 ```
 
 While the overall rate of cancellation is 37%, the rate for City Hotel is slightly higher at 41.7% and the rate for Resort Hotel is slightly lower at 27.8%.
+Customers who were planning to stay in the city hotels tend to cancel bookings more than those planning to stay in the resort hotels.
 
 ## Lead Time
 ```{r}
 ggplot(hotels, aes(x=lead_time, fill= is_canceled)) +geom_histogram(binwidth = 50) #Dist of lead time separated by cancellation
 
+ggplot(hotels, aes(x = lead_time, y = days_in_waiting_list)) + geom_point() # point plot to show the relationship between days in waiting list and lead time
+
+lead_by_hotel <- ggplot(hotels, aes(x=hotel, y=lead_time))
+lead_by_hotel + geom_boxplot() # Box plot to show the lead time by the hotel types
 ```
-There does not appear to be a significant difference in the distribution of lead time for canceled and non-canceled bookings, with the exeption of the jump in the cancellation rate from a lead time 0-50 to 50-100.
+There does not appear to be a significant difference in the distribution of lead time for canceled and non-canceled bookings, with the exception of the jump in the cancellation rate from a lead time 0-50 to 50-100.
 
 ## Market Segmentation & Type and Distribution Channel
 ```{r}
@@ -119,6 +134,7 @@ ggplot(data=hotels, aes(guests)) +geom_histogram(binwidth = 1, fill="dark green"
 #Histogram of total number of guests for each hotel
 ```
 Above are histograms for the number of adults, children, babies, and all guests total for each hotel. Overwhelmingly the most common amount of adults is two, likely indicating that people typically travel as a couple or partnership. Since such a large portion of people travel without children or babies, the children and babies histogram start at 1. Most bookings with children only have 1, while the proportion of people have two children is much closer to one child for the resort hotel, possibly due to more people traveling to the resort for non-business purposes. For babies, it is overwhelmingly dominated by having only one baby for a booking. Besides the number of children distinction already mentioned, the distributions for each hotel are quite similar.
+
 ### Relationships between Adults & Children and Parking Spots Needed & Guests
 ```{r}
 ggplot(data = hotels, aes(x=adults, y =children, color = "blue")) + geom_point(alpha=1/5) + coord_cartesian(xlim = c(0,10)) #creates scatter plot of number of adults and children on bookings
@@ -155,26 +171,5 @@ plot(hotels$total_of_special_requests,hotels$babies)
 
 ```
 Both hotels have similar distributions of special requests made, with most guests making 0 and a very small amount making more than 4. Neither amount of children or babies have a strong relationship with the amount of requests made. 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
