@@ -33,6 +33,13 @@ ggplot(hotels, aes(x = arrival_date_month)) +
 ```
 When looking towards the monthly distribution for both hotels, the City Hotel peaks in the summer and has lulls in late Fall and Winter. The Resort Hotel follows a similar, yet less volatile pattern. 
 
+```{r}
+hotels$seasons <- ifelse(hotels$arrival_date_month == "December" | hotels$arrival_date_month == "January" | hotels$arrival_date_month =="February", "Winter", ifelse(hotels$arrival_date_month == "March" | hotels$arrival_date_month == "April" | hotels$arrival_date_month ==  "May",  "Spring", ifelse(hotels$arrival_date_month == "September" | hotels$arrival_date_month == "October" | hotels$arrival_date_month == "November", "Fall", "Summer")))
+library("ggplot2")
+ggplot(hotels, aes(seasons)) + geom_bar(width = 0.8, fill="blue") +facet_wrap(~hotel) + labs(title = "Seasonal Arrival Distribution") #Produces barplot of arrivals by season for each hotel
+```
+This bar chart depicts another visual of the seasonal changes in arrivals for both hotels. Again, both hotels see the most arrivals in summer and the least in winter. The city hotel sees more drastic changes than the resort hotel as seen on the previous monthly distribution bar plot.
+
 GRACE ADD SEASONAL STUFF HERE
 
 
