@@ -250,7 +250,8 @@ plot(hotels$total_of_special_requests,hotels$babies)
 ```
 Both hotels have similar distributions of special requests made, with most guests making 0 and a very small amount making more than 4. Neither amount of children or babies have a strong relationship with the amount of requests made. 
 
-# Insights
+# Conclusion
+## Insights
 - Customers who were planning to stay in the city hotels tended to cancel bookings more than those planning to stay in the resort hotels.
 
 - Majority of customers who canceled their bookings chose non-refundable options.
@@ -265,7 +266,7 @@ Customers booked through agents pay more on average, but the cancellation rate i
 
 -The longer the lead time, the more likely customers are to cancel it.
 
-# Business Implication
+## Business Implication
 - Hotels have insight into customers' meal preferences and room preferences, which will help hotels consider package options and conduct events to attract customers to generate more revenue.
 
 - Hotels can conduct additional research, such as a TA/TO survey, to gain insight into why customers who booked a room through agents have a higher cancellation rate. It will help them analyze the booking rates and potential income.
