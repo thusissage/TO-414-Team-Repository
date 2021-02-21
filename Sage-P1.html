@@ -310,93 +310,93 @@ library(dplyr)</code></pre>
                                 &quot;Autumn&quot;)))
 sample_n(hotels, 10)</code></pre>
 <pre><code>##           hotel is_canceled lead_time arrival_date_year arrival_date_month
-## 1    City Hotel           1       168              2016              April
-## 2  Resort Hotel           0       152              2017              April
-## 3  Resort Hotel           0       292              2015            October
-## 4    City Hotel           0       246              2016           December
-## 5    City Hotel           1        17              2017              March
-## 6  Resort Hotel           0         0              2017            January
-## 7  Resort Hotel           0       126              2015             August
-## 8    City Hotel           0         0              2016               June
-## 9  Resort Hotel           0       276              2017              April
-## 10   City Hotel           0        73              2016           December
+## 1  Resort Hotel           0         0              2016              March
+## 2  Resort Hotel           0        36              2016              April
+## 3  Resort Hotel           0        79              2015            October
+## 4    City Hotel           1        57              2016                May
+## 5    City Hotel           1        93              2017              April
+## 6  Resort Hotel           0        99              2016              March
+## 7    City Hotel           0         9              2016            January
+## 8    City Hotel           1       196              2017                May
+## 9  Resort Hotel           1        37              2016               June
+## 10   City Hotel           0       142              2016               June
 ##    arrival_date_week_number arrival_date_day_of_month stays_in_weekend_nights
-## 1                        17                        22                       1
-## 2                        14                         5                       0
-## 3                        43                        21                       0
-## 4                        53                        27                       2
-## 5                        10                        10                       0
-## 6                         2                        14                       1
-## 7                        32                         8                       2
-## 8                        23                         4                       0
-## 9                        16                        22                       2
-## 10                       49                         1                       0
-##    stays_in_week_nights adults children babies      meal country market_segment
-## 1                     2      2        0      0        BB     PRT  Offline TA/TO
-## 2                     4      2        0      0        BB     GBR         Groups
-## 3                     2      1        0      0        HB     FRA  Offline TA/TO
-## 4                     5      2        0      0        BB     ROU      Online TA
-## 5                     2      2        2      0        HB     FRA      Online TA
-## 6                     1      2        0      0        BB     PRT      Online TA
-## 7                     5      2        0      1        HB     PRT  Offline TA/TO
-## 8                     1      2        0      0        SC     FRA      Online TA
-## 9                     5      1        0      0 Undefined     SWE         Groups
-## 10                    3      2        0      0        BB     FRA  Offline TA/TO
+## 1                        12                        14                       1
+## 2                        18                        24                       2
+## 3                        44                        29                       0
+## 4                        23                        31                       0
+## 5                        14                         6                       0
+## 6                        11                        10                       2
+## 7                         6                        31                       2
+## 8                        21                        27                       1
+## 9                        25                        17                       0
+## 10                       23                         2                       2
+##    stays_in_week_nights adults children babies meal country market_segment
+## 1                     3      2        0      0   BB     PRT         Direct
+## 2                     0      1        0      0   BB     DNK      Online TA
+## 3                     2      2        0      0   BB     IRL      Online TA
+## 4                     1      1        0      0   BB     PRT         Groups
+## 5                     3      2        0      0   BB     PRT  Offline TA/TO
+## 6                     5      2        0      0   BB     GBR  Offline TA/TO
+## 7                     0      1        0      0   BB     PRT      Corporate
+## 8                     1      1        0      0   SC     MEX      Online TA
+## 9                     2      2        0      0   HB     ESP      Online TA
+## 10                    3      2        0      0   BB     BRA         Direct
 ##    distribution_channel is_repeated_guest previous_cancellations
-## 1                 TA/TO                 0                      0
+## 1                Direct                 0                      0
 ## 2                 TA/TO                 0                      0
 ## 3                 TA/TO                 0                      0
 ## 4                 TA/TO                 0                      0
 ## 5                 TA/TO                 0                      0
 ## 6                 TA/TO                 0                      0
-## 7                 TA/TO                 0                      0
+## 7             Corporate                 0                      0
 ## 8                 TA/TO                 0                      0
 ## 9                 TA/TO                 0                      0
-## 10                TA/TO                 0                      0
+## 10               Direct                 0                      0
 ##    previous_bookings_not_canceled reserved_room_type assigned_room_type
 ## 1                               0                  A                  A
 ## 2                               0                  D                  D
 ## 3                               0                  A                  A
 ## 4                               0                  A                  A
-## 5                               0                  F                  F
-## 6                               0                  E                  E
+## 5                               0                  A                  A
+## 6                               0                  D                  D
 ## 7                               0                  A                  A
 ## 8                               0                  A                  A
-## 9                               0                  A                  E
-## 10                              0                  A                  D
+## 9                               0                  A                  A
+## 10                              0                  A                  B
 ##    booking_changes deposit_type agent company days_in_waiting_list
-## 1                0   Non Refund    26    NULL                   77
-## 2                0   No Deposit  NULL     223                    0
-## 3                2   No Deposit   208    NULL                    0
-## 4                0   No Deposit     7    NULL                    0
-## 5                0   No Deposit     9    NULL                    0
-## 6                0   No Deposit   240    NULL                    0
-## 7                0   No Deposit   261    NULL                    0
+## 1                1   No Deposit  NULL    NULL                    0
+## 2                0   No Deposit   242    NULL                    0
+## 3                0   No Deposit   240    NULL                    0
+## 4                0   No Deposit  NULL    NULL                    0
+## 5                0   Non Refund   170    NULL                    0
+## 6                0   No Deposit   156    NULL                    0
+## 7                1   No Deposit  NULL      40                    0
 ## 8                0   No Deposit     9    NULL                    0
-## 9                0   No Deposit   527    NULL                    0
-## 10               0   No Deposit    28    NULL                    0
+## 9                0   No Deposit   240    NULL                    0
+## 10               2   No Deposit    14    NULL                    0
 ##      customer_type    adr required_car_parking_spaces total_of_special_requests
-## 1        Transient  85.00                           0                         0
-## 2  Transient-Party  60.00                           0                         0
-## 3  Transient-Party  60.00                           0                         0
-## 4        Transient  58.36                           0                         1
-## 5        Transient 265.00                           0                         0
-## 6        Transient  75.00                           1                         1
-## 7        Transient 133.00                           1                         2
-## 8        Transient 129.00                           0                         1
-## 9  Transient-Party  86.29                           0                         0
-## 10       Transient  75.00                           0                         0
+## 1        Transient  49.50                           1                         0
+## 2        Transient  81.00                           1                         1
+## 3        Transient  40.50                           0                         1
+## 4  Transient-Party 120.00                           0                         0
+## 5        Transient  95.00                           0                         0
+## 6        Transient  35.15                           0                         0
+## 7        Transient  66.00                           0                         0
+## 8        Transient 107.10                           0                         2
+## 9        Transient 161.00                           0                         0
+## 10 Transient-Party 115.33                           0                         1
 ##    reservation_status reservation_status_date seasons
-## 1            Canceled               1/22/2016  Spring
-## 2           Check-Out                4/9/2017  Spring
-## 3           Check-Out              10/23/2015  Autumn
-## 4           Check-Out                1/3/2017  Winter
-## 5            Canceled               2/21/2017  Spring
-## 6           Check-Out               1/16/2017  Winter
-## 7           Check-Out               8/15/2015  Summer
-## 8           Check-Out                6/5/2016  Summer
-## 9           Check-Out               4/29/2017  Spring
-## 10          Check-Out               12/4/2016  Winter</code></pre>
+## 1           Check-Out               3/18/2016  Spring
+## 2           Check-Out               4/26/2016  Spring
+## 3           Check-Out              10/31/2015  Autumn
+## 4            Canceled               5/27/2016  Spring
+## 5            Canceled                1/3/2017  Spring
+## 6           Check-Out               3/17/2016  Spring
+## 7           Check-Out                2/2/2016  Winter
+## 8            Canceled               4/15/2017  Spring
+## 9            Canceled               5/11/2016  Summer
+## 10          Check-Out                6/7/2016  Summer</code></pre>
 <pre class="r"><code>seasons &lt;- table(hotels$season)
 seasons &lt;- round(prop.table(seasons),digits=3)
 seasons[4]</code></pre>
@@ -697,23 +697,31 @@ acquired</code></pre>
 <p><img src="data:image/png;base64,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BQgSUIAgAQUIElCAIAEFCBJQgCABBQgab0An7375o/UXCSiQztgC+vvJyevqz/NHRengry2/XECBdMYV0DeHVTZvf7g4qz+YftyGgALpjCqgp7Nq3vn0sNz6PDr6qvq41RIEFEhnTAH9WG523vrh53Ln/duieFB9pirq0zaLEFAgnTEF9Hi6xz55ttzwPG65CSqgQDojCmgVznpz86zcf/9p+rlyo7TVUVABBdIZUUA/PSxu/LrywcqH21Zli32tHfDlEVCAoBEFtNyFn+65l/vtduGB/o0ooIszRuWf05Pw9Wl4J5GAnowpoGdlOL9+//5FUdxdbou6jAnoy5gCWm961rcf/aMM5/2Tk+etb0USUCCdUQV08qLuZ7n1Ob8nadcppG0EFEhnVAG9uHj3/d17j6ttzt+mN8Pfb3crvIACCY0soEuT378/+qH1fHYCCqQz2oDGCCiQjoACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBHUb0DeHRXH/derv2IKAAul0FNC3j278enFxWlQOfkr9La9OQIF0ugloWc4yoB8P64BWH/ZFQIF0OgloVc6ymnVGJ8+K4kHq73llAgqk00lAy3Le/nBRpfPOxcVZ/d+eCCiQThcBLctZHfestkOfXlx8etjjPryAAul0EdBZMk+n548EFMhEhwE9np4+ElAgE90FdHYItNqTv/0h9Te9KgEF0unoGGjxdH4ItNoQdRIJyEFXZ+FvvfrXeg9+8vdi2tF+CCiQTicBLffhaw+mH/W3ASqgQELd3Ik0vQfp9oc6oF/3dgRUQIGUOroXfvL26LtX5Z+f/vn+q9TfsA0BBdIxnR1AkIACBHUX0D9PTn75cDH5I/X3a0VAgXS6Cuibr6bz2H16eMuEykAeOgroi/lEoJ8emlAZyERnEyoXt/7tcHZDZ393cgookFBnEyo/KTc+q0lEpvd19kVAgXQ6Cej09vdpQE2oDOSiwwmVZwE1GxOQiQ7nA50F1HygQCYEFCDILjxAUFcnkR4sAnrqJBKQh04Ceja7hr4K6JkJlYFMdBLQ6trPgx+rgNYT0ruQHshCN3cizaekr7mVE8hDVxMqP1v002QiQCY6m87u/Hk1H9NBvxPSCyiQkAmVAYIEFCBotAH98/eTV+3P5gsokM5+Azq9bXPlHPxsYuWgd9/UXzt5eTg9IfVj25UTUCCZUQV08nz6tY1z+i3fZF5AgXT2HNBv7t77tfrvqnuxgNbdnM1qXxwcHR1Vm6HtbgsVUCCdMR0Dre4C/acP0z8fVJ+o7mtqd1m+gALpjCmgx7NuHi+3O49bboIKKJDOiAI6f0PP5ht7tp0bT0CBdLoL6OTdycnJde5Dms/E3JyReffszMUW11gBgBVdBfTto1nA7oVvhZ/HcvJMQIEh6Cag1fVHCw+CC168IfLxchf+rOXkeAIKpNNNQI+r647+8reT//j2OgU9nV1B+vFwfuaoamqrpQkokE5XM9LX1x+VJi/iE4JWF+TXk+Gdzi9jar0wAQXS6eo9ke5s/0s7Z9WV8/d+eP/+72VJH//8/LD15qyAAul09LbGje3E67wr58fD9XNCLQ8HCCiQTofvC7/1by3NZxGZz25vMhGgPx29L3yqgJb+/Pmovrf+3nc/mM4O6FNXx0CX72R85n3hgTx0EtDmRufq5mjXBBRIp5vrQM8fzQ9XVh/1108BBRLa+3ygU9U7chbln9UfN6PzgaZYOQEFktn7jPTb9LcPL6BAOgIKEDSi+UBTEFAgHQEFCBJQgKBeAvo+ei/8tQkokE5HAZ38fDR39ysnkYAsdBPQs0Nn4YHsdBLQ9Vno7tuFBzLQSUBPq2j+/LA4+JeXj4ri4OnmI7oioEA6HU1nV018PJ2T6bTl28ClJaBAOh3OSD99J6PFe2v2QkCBdDqckX42Eaj5QIFMdBjQ2ZshlX/rbx9eQIF0OnxLj1k5r/uWHtcioEA6Hb2lR3UMdNlRAQVy0NVlTNVhz+lp+LM+T8MLKJBOV++JVEWzTOeNV/946CQSkIeObuWsb9+srmCqVPvzPRFQIJ2OJhN5+6g+/Pmo7ueT1N/y6gQUSKfj6ezeHh09/iP1d2xBQIF0TKgMECSgAEHdBXTy7uTk5FXq79aSgALpdBXQt49mc4Hee536G7YhoEA63QR08rwxnfKD1N+xBQEF0ukmoMfV1Ut/+dvJf3zbc0EFFEink4CeldX8p+ntm5MXLqQHMtHRZCKNuzeP3coJ5KHDGelnZtOC9kNAgXQ6nFB56986JqBAOh1OqDwjoEAmujoGunwfOe+JBGSiq/lAFxudq5ujXRNQIJ1urgM9f1Tc+nHxUX/9FFAgof0G9NM3d6e+qi6gL/+s/rh5955joEAG9hzQh8U2TiIBORBQgCDzgQIECShAkIACBHUa0GpO+t5ug68JKJDO/gN6/vy/Ts8ZvTmszyDd7zOhAgqks++AVvN/Tk+6ny7Owff4ph4CCqSz74Aez69a+lhuf9764efqvT36m81OQIGE9hzQ5Vz083mUq5A+3fZ1nRBQIJ09B/R4/g5Iy/lETvvcBBVQIJ39BnTybD4XfbnhOZvErvzInUhADvYa0E+P6rlDKuWO+8FyXpHe5hMRUCCdrgK6+EBAgVzsfTKR6S58+cH8wKc3lQMy0dFJpNP5yaT6Q2/pAeRgzwEta1ltgjZOHLmMCcjFngNaTwh6szrsOd0Affe81+lABRRIaN93In2c3gA/O+xZ93R2YVMvBBRIZ++TiZx/UzXz6+lpoyqg93u8FV5AgYS6mM7u/R/zjybf/+2Pjf/dJQEF0jGhMkCQgAIEdRvQak5lx0CBTHQU0LePqmuXpnMqOwsP5KGbgJ7WF3/OL2lyHSiQhU4CWpWzrGad0cmz5V2d3RNQIJ1OAjqdQ7lK5516knr3wgM56CKgs2mVZ3fBL+em74GAAul0EdBZMmcTiwgokIkOA3o8PX0koEAmugvo7BCoCZWBXHR0DLR4upgI9NhJJCAPXZ2Fv/XqX+s9+MnfCxMqA3noJKD1NKD1pMr1R/1tgAookFA3dyJN70G6/aEO6Ne9HQEVUCClju6Fn7w9+u5V+eenf77/KvU3bENAgXRMZwcQJKAAQQIKELTfgM5Pv69xJxKQAwEFCNpzQL+5u809AQUy4BgoQJCAAgQJKEBQdwH98+Tklw8Xkz9Sf79WBBRIp6uAvvlqevb908Nb3hceyENHAX0xv3zp00PvCw9korP3hS9u/dvhbF76/iakF1Agoc7eF/5JufFZXUA/nZ6+LwIKpNNJQKfv4jENqPeFB3LR4fvCzwLqTeWATHT4tsazgHpbYyATAgoQZBceIKirk0gPFgE9TXQSafJ7dWdTSwIKpNNJQM9m19BXAT1L9b7woUMBAgqk00lAq2s/D36sAjr5e5HqQnoBBXrWzZ1IKzPTh2/l/PN907syoK/KP1vNTiKgQDpdvS/8s0U/w5OJpHh/EAEF0ulsOrvz59V8TAf3X4UXLKDAsIxpQuU3h2WBj+a+PSwO/lL++V2bI6oCCqTTyXWgqxcc/f7ycfAs0vmzxhGAK5xE2rbBGvvOAJs6vBNp699a+q3c7PzrlZcjoMA+jSygF+ePiuL26/ByBBRIZ88B/a15tHLqUcvzPmuqK0kPnlwIKNC7PQe0mkp50/Vu5fxYJvj+BwEF+rbvXfjjLf28dc3JmCYvpjc2CSjQq30HdHJycvJzuQv/w8nC++t/j+qCpr8cCijQq+5PIiVx/qz1NfQ1AQXS6eE60DR+OxRQoF9juhNp1fn37W5CqgkokE53Af2zOv75S6u5k9ITUCCdrgL65qv5ZHZPUn/DNgQUSKejgL5oXMX0dW/viCSgQErdBPS0nsnu5OTn54fXvo7+WgQUSKeTgFb3I822O+uL4KNT0l+fgALpdPWunHe2/6VrAgqk0+H7ws94X3ggE2Obzu6aBBRIR0ABguzCAwQ5iQQQ1ElAz4qimN+A9Kb8+Gnq73llAgqk082F9NW0yrd+eP/+/c+PXEgP5KKbgE6eNW7l7O8IqIACKXV0L/xkcTP8QZ+3wgsokFB309n9/v3R0dF3v6T+du0IKJDOeCdUDhFQIB0BBQgSUICgrgL67uXRUvv3MkpFQIF0ugnox0dFk3vhgRx0EtBPDwsBBbLTSUCrd/S4V92INNPfW3MKKJBOR7Mx9Xn7ZpOAAul0NB9oj2+DtEJAgXS6n1C5VwIKpNPRLryAAvnp6iRSf1OArhBQIJ1OAjqcTVABBdLpaD7Q58XB4/epv1OAgALp7Deg61fQu5AeyIiAAgTtOaDf3N3mnoACGTCdHUCQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBI0soJOX39z9y98+LP7+6WFx49cWX3+14RYzbddukHIaTE5jyWswWWnzkxlXQH87rAd28Hie0L0EtCgyem3nNJicxpLXYLLS6iczqoCeLkZ2e1bQfQR08cTl8NrOaTA5jSWvwWSl3U9mTAH9WG5/3vrx/fsX1Z/TbO4hoI2nbfwv7ZwGk9NY8hpMVlr+ZMYU0NP5luf5o3lB9xLQVg8ftpwGk9NY8hpMVlr+ZEYU0Mmzoni6/LBuqYDultNgchpLXoPJSr4BbcayKuidi88FtNjis98mq5d2ToPJaSx5DSYrX0ZAq78UDwT0c3IaTE5jyWswWflCAlqdUTr4yS78Z+Q0mJzGktdgspJvQBvHQCtnRXHjtYDultNgchpLXoPJSr4Brc7C31n9643/7TKmnXIaTE5jyWswWcn4MqbqOtD7fyz/flwf1HQh/S45DSanseQ1mKzkeyF9fSdSs5cv9hLQdrdyDV1Og8lpLHkNJiv53sp58eZwtZfl300m8hk5DSanseQ1mKy0+cmMK6AXk7fffVj5+4vDPQQU4CpGFtDrElAgHQEFCBJQgCABBQgSUIAgAQUIElCAIAEFCBJQgCABBQgSUIAgAQUIElCAIAEFCBJQgCABBQgSUIAgAQUIElCAIAEFCBJQgCABBQgSUIAgAQUIElCAIAEFCBJQgCABBQgSUIAgAQUIElCAIAEFCBJQgCABBQgSUIAgAQUIElCAIAEFCBJQgCABBQgSUIAgAd36qKl9r00nchpMTmMxmMFqMxgB3fagjF4OOQ0mp7EYzGC1GoyAbnlMsfbBiOU0mJzGYjCD1W4wArr5kGL54V5XpgM5DSansRjMYLUcjIDuesjoXw45DSansRjMYLUcjIDuesiX9moYtJzGYjCDJaC7COh45TQWgxksAd1FQMcrp7EYzGAJ6C4COl45jcVgBktAdxHQ8cppLAYzWAK6i8uYxiunsRjMYLmMaRcX0o9YTmMxmMFyIf0OVxrul3tf2sDlNBaDGSy3cl7uasPN6MWQ12ByGovBDFabwQgoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShA0AgDOnn/+8nJyS/vPwS+VkCBdMYW0HfPi6X7r9p++dWGO19++9UboJwGk9NYDGaw2gxmXAE9f1SsuvVTuwVcabjLxYdWclhyGkxOYzGYwWo1mFEF9OywGtXdo6mvqr8cPG21hKsMd/HE5fByyGkwOY3FYAar3WDGFNBPD8tg/tj4xNsyqDd+bbOIKwy38bSN/9WQ02ByGovBDFbLwYwpoKcbuayS+qDNIq4U0FYPH7acBpPTWAxmsFoOZkQBnTwrivUd9rOiuN3mbLyAjldOYzGYwco3oOXm5sb++rbPNVZli89+my/51TBoOY3FYAZLQBurIqAZDSansRjMYOUb0HIX/mD9qiW78LvlNJicxmIwg5VvQC+ON2pZHRa902YRAjpeOY3FYAYr44B+PCwL+rrxifOynxsbpTu5jGm8chqLwQxWxpcxVdcxlcU8+uGk8vP0SvpWVzFd8Sn5Yq8KHracxmIwg5XvhfQXF28O104JHTxpt4ArDffLvS9t4HIai8EMVqvBjCugF5OXzYQePG47I9PVhpvRiyGvweQ0FoMZrDaDGVlAS5N3Jy+Pjo4en7wKzGeXyU8YGITxBfRaBBRIR0ABggQUIEhAAYIEFCBIQAGCBBQgSEABggQUIEhAAYIEFCBIQAGCBBQgSEABgr64gAKkk7xRqReYUt9PNpCX5I1KvcBeZLWvn9NgchqLwQxWj4PJ42n0ahionMZiMIMloNfk1TBQOY3FYAZLQK/Jq2GgchqLwQyWgF6TV8NA5TQWgxksAb0mr4aBymksBjNYAnpNXg0DldNYDGawBPSavBoGKqexGMxgCeg1eTUMVE5jMZjBEtBr8moYqJzGYjCDJaDX5NUwUDmNxWAGS0CvyathoHIai8EMloBek1fDQOU0FoMZLAG9Jq+GgcppLAYzWAJ6TV4NA5XTWAxmsAT0mrwaBiqnsRjMYAnoNXk1DFROYzGYwRLQa/JqGKicxmIwgyWg1+TVMFA5jcVgBktAAcZHQAGCBBQgSEABggQUIEhAAYIEFCBIQAGCBBQgSEABggQUIEhAAYIEFCBIQAGCBBQgSEABggQUIEhAAYIEFCBIQAGCBBQgSEABggQUIEhAAYIEFCBIQAGCBBQgKIOAnj8/LIqD+6/7Xo9kPj288Wvf65DA5OXdoihuZvKDeftNNZjHH/pej3Q+HhZP+16H65s8Kxb6GM74A/rmcPrsHfy17zVJpHxJ5BDQ+c+lKL7ue1Wub/FrepBBc6Y+PeynOIlVwxDQazjr9/lLb3Jc5BDQxs+luNP3ylxX35s5+3Ccx1iarzMBba/6B+hWuZP47lEW2Zn9ro5/JPXP5dXF9Adz8FPfq3NNp+UYqr33f5SDuZ3HXvxZJv8YnPY8irEH9HT+iq7C86Dvtbm+t/WO7/gDerbY7qx+MCPfBC2HMPs3oPx3YfT/GtSme74ZBPS451+WkQd0+dKujomPfuPgvNzCKe4/yiCgx8vfzvH/YMoRzP8J6HuDJ5HqOPv/zGEo5UD6fXGNPKDlP6Tz56/R0tGqdhWfZHISaaHxMxq/4xyqM/13IIt/C8oXV7+7NyMP6Flj9zCD1/bpwdcfcjkLv5BTQMux5PCzKTepH+SxMV0G4Ol5dYXZvR/7WYHxB3Rx4DODF8SfVWhyC+jZ6I+Bzk1eHo7/NXYx3+/N4Pel+qU/+HZ2Dv5+L/9KjzygzRfBWRZnkbILaDbnXY7r60Cf9L0aCRzXP5EsAnrcuIqpl/0cAR2cvAJaXdaaxwZo/bt688n4j0bMflFyCGh1iUd9gdn586KfX38BHZysAprJbQGlyf+4+81hX9s5Kc2PSecQ0MbuzWk/LzQBHZycAlpvIWSxAz9VXWc29u3p+ZWTOQS0oXqp9TAeAR2cjAJ6nsNtSCvGf0R38SuTWUCr8fTw+z/ygGZ2Fr6WT0Cr+URu5TGUhX5+TdNZ3hSQy+/LXD8bUOMPaE7XgdayCehpNRPT2I8Yrhv7fs5psWrUg1khoAGZ3YlUyyWgL7L69ZwT0KHqZ4t65AHN7F74WiYBPc3n8Gdzt33s+zl5BbTxk+np6PTIA5rdbEwXuQS03FK7kcdc9PW/zT1fLLMPORwDLX8ysx9HX9cbjz2g83kns5kPNJOAjv9sdUN9MdaTPi/X3occArr4yfQ27ezYA5rfjPR5BHR1T3HsLT1vvG/E2C8DXcghoNUmaL9HI0Yf0IvfvCfS8DTfAyODgE4naq3lc1lBFgG9+Dj/yfT0+z/+gGb3rpw5BLT5Vl85BHT+rpz5vMpyCejFZPZ+qX/08+0zCChAPwQUIEhAAYIEFCBIQAGCBBQgSEABggQUIEhAAYIEFCBIQAGCBBQgSEABggQUIEhAAYIEFCBIQAGCBBQgSEABggQUIEhAAYIEFCBIQAGCBBQgSEABggQUIEhAAYIEFCBIQAGCBBQgSEABggQUIEhAAYIEFCBIQAGCBBQgSEABggQUIEhAAYIEFCBIQAGCBBQgSEABggQUIEhAAYIEFCBIQAGCBBQgSEABggQUIEhAAYIEFCBIQAGCBJSoybMbv/a9DtArAc3d5Flx8NNnH3X+42VffEkkJ2+/KUr3ll93ySIiC9/24JdfFcXB11d9eBuXrUer9Uvs8ieTQRHQ3F0loJMXxYPLvnh7Qz4+KmZuf9i9iMDCtz+2cueKD29leAG9/MlkYAQ0d1cJ6FnRsnEfD4titaCXLqL9wi9ZSGUvWRleQC9/MhkYAc3dXgJ6XO5OP/5/z27835dlSZ/uXESagJ4uNnW7I6B8loDmbh8B/fSwWmZ9EulsVrb9B/TpFR+ajIDyWQKau30EtNyDL92fNbsAAAfLSURBVKtZB3T+CAFNSEBHQ0BzNw3om+oc9v3Xi0/W59Dv/Tg/fFmrCzV5c3f5f5YNmX765uM/6k83Ajq1uohLF/7ny2opB7NT97sCtbKMcoN31yHQjXW7c3H+TXXK/o/VR8wHVX+i8Xws1+Oq63dcDv9tuYR7r7ct/F31zR9/KNe62jZv/AM2fdq2rdDKEJpP2erYGBwBzV31C/zvx9NfyYPZVtz5/Bz6raoAzV/Yxdmh+v8sGrI8aVQ3rLELP9VcxOULP1098bQjoKvL2B3QtXWrAjr7VCNczUEtryGYPh+L9bjy+pUBfTP/BhsLfzFbxH9eHtD1r1kdQuMpWxsbgyOguat+gb+a/xpOg7AI0vQTW39hpw+dNaTxBdNNydPZSaQtAb184cs+TXtweaDWlrEzoOvrVg7hvzyb/X1arvVBNb6kfsB8Pa6+fsfFzXqZd7YsfLGU/35pQNe/Zm0Iy6ds43lnaAQ0d/UVlAdPyj3uv88TVJ9DLz9RnUKvr6w8W25ZFrd+rHYcZ/9n1pAyCrdelX89f7bcOKv78++Lb7M4bLdz4fVe9btHxTwtlwZqbRk7joGur1tdp2rLbj6GjUHVi38y3cxtDLLd+hW3X299xqpvX373+u+XBHTjazae3vlTtvE/GBoBzV3VuhvTPcXTxe/47Fd6/tH8F/Zs8Xs63UmfN+R4nq/lMdGXs62oe7Md17PlHvTlC59dB1/+n2opl1+lv7GMHQFdX7eqYIsd5eqLNwY1+2N9kFdfv+p7zha5sfDTxne/JKAbX7Px9J4t/6Vbe94ZGAHNXRXQ2a7v7Bf4dHlHz/HiqNvsF3Zxwn76qeUW6O3X68t9Mzsw8HXj8bsWvlR2Y2egNpexewt0Zd2W9Z198caglqWcLnVjPT63fou12lx4I5fHlwV0Y4U2nt7Gk7nxvDMoApq7bb/AixjVp6wXv7Cz88aN/7PcOCv3ev/ytw9rSz74b4sjkxsbTesLn/vz9+8Pi92B2lzGjoCur9vyVPe0lJuDWl/W6npcYf2WK7ix8Fl7Gyuy8fxvrtDG09vYaN/yvDMgApq7jV/g5oWhy53KWUCbpo+te3A8P+nSvJ6mOgs/eVGs7KhfvvCL+tqk+emTXYHasoxd14Gurds8uRfLpK0NqrEFOP9+s+MSV1u/xjbkxsIb+b7sMqbNFdp4epsHlDefdwZEQHO3LaCLLsx+yWe/sM073FcDujjk2dyanF7GtLqjfvnCVxf/mYCuL2NXQNfWbTWgddKuGNCrrl8joBsLv0JAN1do4+ldPGVbn3cGREBz12ILtPHbv/zieUPePl//TZ4GdHVHfccW6HTL6+a97374z93HGFtuga6t2/oW6OagLgnolddvNaCrC2/sn+8I6JYz6itPb/Oox+bzzoAIaO52HgOdnU9Z7sKvFWPt8ODPz+fbcNOTL5sBvXzh9TU50zMinztJs7mMz9/KuVi3LcdA177LJcdAr75+K7vwW88/VXYcA92+2MUQNg4bL/4HQyOgudsM6KUnyqsT9k/Xv7hxv/vFPBDTJUwDerq60bRr4fP1OPvMLnKbs/Ab6za7Bmn2xU+3DGrleqU7jUFedf2WAd1c+DL+8wualhu8p/PDIpeexJrFdfN4yKXVpV8CmrvNgF5+qebp4pLRWReX14HOtogWkZrfyvlxNp/dZ68DXa7H+cPPBKrtdaDr6zbr4yylG4NaLv64McgW67faxNWFLy7yrI4IzAI6W5/z2Wc2vmZ9CM3N+dX/wdAIaO623ErYvNFnfudL/Wf1S1/dtHTx5+zkeuMypsVNOnfmS6jmA32zvojLF3483UWenhdpLHyLjWV85jKm5rrV52juv17e57MxqPmdSNUVBI1Qtlq/+VO6sfD6NqNXFxdv53ci1fd2fv2hcW/SxtdsPL2NOQJX/wdDI6C52xLQtVvN5yeTG7dhz09arF/GNP+K5qU4zRvON++FX/6f5rI/E6iNZVzlMqbZg8tvd/Nw5YvXB9VcfGOQLdZv9VL41YUvTrLf3Hi2/+XhsosrX7P+9C6ezPX/wdAIaO62BHRtsqP5re31AcvVy2YWlzE9m3/61mw3d/GeSI2jgdMvunThL+Zf8fjZ9juAltaXsfMyptV1q45rzgp1a7b0s/VrgRaLXxnk1deveR5/Y+Gzgt74P/MT8vNHPPi0/pnF1UprT+/iKdt43hkYAc3dtoAupttcPKg6zVvfkzl52ZyActmQd88Pi5VZL99+W33i7uMPm4u4bOH152+WX3FWNG5z2r7Wa8vYeRZ+Zd2m1y6Vhbz5ZLm0l2uzak7vQ723Nh/olddv5UKozYW/OKx22pdXNP1ZfaIcy/IzG1+z9vQun8yN551BEVCihvm+8I3rQPvVvGWTXAkoUQK6k4B+CQSUKAHdSUC/BAJKr1bOfU9dfrDzKg9OHNBW67dCQL8EAkqvBJQxE1B6JaCMmYACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBP1/GCu6EGDic8EAAAAASUVORK5CYII=" width="672" /> Both hotels have similar distributions of special requests made, with most guests making 0 and a very small amount making more than 4. Neither amount of children or babies have a strong relationship with the amount of requests made.</p>
 </div>
 </div>
-<div id="insights" class="section level1" number="5">
-<h1 number="5"><span class="header-section-number">5</span> Insights</h1>
+<div id="conclusion" class="section level1" number="5">
+<h1 number="5"><span class="header-section-number">5</span> Conclusion</h1>
+<div id="insights" class="section level2" number="5.1">
+<h2 number="5.1"><span class="header-section-number">5.1</span> Insights</h2>
 <ul>
 <li><p>Customers who were planning to stay in the city hotels tended to cancel bookings more than those planning to stay in the resort hotels.</p></li>
 <li><p>Majority of customers who canceled their bookings chose non-refundable options.</p></li>
 <li><p>Both types of hotels would need to have more Type A rooms, which is the most sought-after room type among all customers.</p></li>
 <li><p>Customers with children tend to have breakfast options more than customers who do not.</p></li>
 <li><p>Customers booked through agents pay more on average, but the cancellation rate is also high. Customers booked through agents pay more on average, but the cancellation rate is also high.</p></li>
+<li><p>The longer the lead time, the more likely customers are to cancel it.</p></li>
+<li><p>Although city hotels have more bookings, they also tend to have more cancellations.</p></li>
 </ul>
-<p>-The longer the lead time, the more likely customers are to cancel it.</p>
 </div>
-<div id="business-implication" class="section level1" number="6">
-<h1 number="6"><span class="header-section-number">6</span> Business Implication</h1>
+<div id="business-implication" class="section level2" number="5.2">
+<h2 number="5.2"><span class="header-section-number">5.2</span> Business Implication</h2>
 <ul>
 <li><p>Hotels have insight into customers’ meal preferences and room preferences, which will help hotels consider package options and conduct events to attract customers to generate more revenue.</p></li>
+<li><p>Resort hotels tend to have less bookings than city hotels, so they will need to work on their marketing.</p></li>
 <li><p>Hotels can conduct additional research, such as a TA/TO survey, to gain insight into why customers who booked a room through agents have a higher cancellation rate. It will help them analyze the booking rates and potential income.</p></li>
+<li><p>Most customers travel alone or in pairs so the hotels could advertise in ways that attract couples as well as business travelers.</p></li>
+<li><p>City hotels could sell more non-refundable bookings during peak times or apply stricter refund policies to prevent revenue loss from the cancellations.</p></li>
+<li><p>Even though June-August happens to be the busiest months but so the hotels should target more customers by providing more value package options to maximize the revenue.</p></li>
 </ul>
+</div>
 </div>
 
 

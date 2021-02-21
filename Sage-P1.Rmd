@@ -264,11 +264,20 @@ Both hotels have similar distributions of special requests made, with most guest
 - Customers booked through agents pay more on average, but the cancellation rate is also high.
 Customers booked through agents pay more on average, but the cancellation rate is also high.
 
--The longer the lead time, the more likely customers are to cancel it.
+- The longer the lead time, the more likely customers are to cancel it.
+
+- Although city hotels have more bookings, they also tend to have more cancellations.
+
 
 ## Business Implication
 - Hotels have insight into customers' meal preferences and room preferences, which will help hotels consider package options and conduct events to attract customers to generate more revenue.
 
+- Resort hotels tend to have less bookings than city hotels, so they will need to work on their marketing.
+
 - Hotels can conduct additional research, such as a TA/TO survey, to gain insight into why customers who booked a room through agents have a higher cancellation rate. It will help them analyze the booking rates and potential income.
 
+- Most customers travel alone or in pairs so the hotels could advertise in ways that attract couples as well as business travelers.
 
+- City hotels could sell more non-refundable bookings during peak times or apply stricter refund policies to prevent revenue loss from the cancellations.
+
+- Even though June-August happens to be the busiest months but so the hotels should target more customers by providing more value package options to maximize the revenue.
