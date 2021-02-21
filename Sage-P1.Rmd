@@ -1,7 +1,7 @@
 ---
-title: "Sage_GP1"
-author: "Sage O'Toole"
-date: "2/15/2021"
+title: "Team 12 - Hot Cocoa Codesters Project 1"
+author: "Grace Chang, Seungwan Kim, Riley C Maher, Sage O'Toole, Jenna Kay Probst"
+date: "2/21/2021"
 output:
   html_document:
     number_sections: True
@@ -16,7 +16,7 @@ knitr::opts_chunk$set(echo = TRUE)
 # Setup
 ```{r}
 hotels <- read.csv("hotel_bookings.csv", stringsAsFactors = TRUE) #Reads in Hotel Bookings Data
-library(ggplot2)#Calls ggplot
+library(ggplot2) #Calls ggplot
 library(dplyr)
 ```
 # General Analysis
@@ -31,16 +31,31 @@ ggplot(hotels, aes(x = arrival_date_month)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) #Produces barplot of arrivals by month for each hotel
 
 ```
+
 When looking towards the monthly distribution for both hotels, the City Hotel peaks in the summer and has lulls in late Fall and Winter. The Resort Hotel follows a similar, yet less volatile pattern. 
 
 ```{r}
-hotels$seasons <- ifelse(hotels$arrival_date_month == "December" | hotels$arrival_date_month == "January" | hotels$arrival_date_month =="February", "Winter", ifelse(hotels$arrival_date_month == "March" | hotels$arrival_date_month == "April" | hotels$arrival_date_month ==  "May",  "Spring", ifelse(hotels$arrival_date_month == "September" | hotels$arrival_date_month == "October" | hotels$arrival_date_month == "November", "Fall", "Summer")))
-library("ggplot2")
+hotels$seasons <- ifelse(hotels$arrival_date_month == "December"|
+                                hotels$arrival_date_month == "January"|
+                                hotels$arrival_date_month == "February",
+                                "Winter",
+                          ifelse(hotels$arrival_date_month == "March"|
+                                 hotels$arrival_date_month == "April"|
+                                 hotels$arrival_date_month == "May",
+                                "Spring",
+                          ifelse(hotels$arrival_date_month == "June"|
+                                 hotels$arrival_date_month == "July"|
+                                 hotels$arrival_date_month == "August",
+                                "Summer",
+                                "Autumn")))
+sample_n(hotels, 10)
+seasons <- table(hotels$season)
+seasons <- round(prop.table(seasons),digits=3)
+
 ggplot(hotels, aes(seasons)) + geom_bar(width = 0.8, fill="blue") +facet_wrap(~hotel) + labs(title = "Seasonal Arrival Distribution") #Produces barplot of arrivals by season for each hotel
 ```
-This bar chart depicts another visual of the seasonal changes in arrivals for both hotels. Again, both hotels see the most arrivals in summer and the least in winter. The city hotel sees more drastic changes than the resort hotel as seen on the previous monthly distribution bar plot.
 
-GRACE ADD SEASONAL STUFF HERE
+This bar chart depicts another visual of the seasonal changes in arrivals for both hotels. Again, both hotels see the most arrivals in summer and the least in winter. The city hotel sees more drastic changes than the resort hotel as seen on the previous monthly distribution bar plot.
 
 
 ```{r}
@@ -108,7 +123,8 @@ round(prop.table(table(hotels$market_segment, hotels$is_canceled),1), 3) #Calcul
 
 round(prop.table(table(hotels$customer_type, hotels$is_canceled),1), 3) #Calculates cancellation by customer type
 
-round(prop.table(table(hotels$distribution_channel, hotels$is_canceled),1), 3) #Calculates cancellation rates by Channel
+round(prop.table(table(hotels$distribution_channel,
+                       hotels$is_canceled),1), 3) #Calculates cancellation rates by Channel
 
 ```
 The cancellation rates based on market segment of the customer and the distribution channel the booking was made are quite interesting. For the market segment, the cancellation rates seem fairly consistent with the exception of Group bookings which have a cancellation rate nearly double the nearest segment (Online TA).Interestingly, when broken down into customer type, Group bookings have a much lower cancellation rate than the group market segment, a possible error is apparent in how the markets are categorized between these two measures (market segment vs customer type descriptions do not provide explanation in Kaggle). 
@@ -117,22 +133,29 @@ We see a similar scenario for the distribution sample, where corporate, direct, 
 
 ## Deposit Type
 ```{r}
-round(prop.table(table(hotels$deposit_type, hotels$is_canceled),1), 3) #Calculates cancellation rates by deposit type
+deposit_cancel <- round(prop.table(table(hotels$deposit_type,
+                                         hotels$is_canceled),1), 3) #Calculates cancellation rates by deposit type
+deposit_cancel[2,2]
 
-plot(round(prop.table(table(hotels$deposit_type, hotels$is_canceled),1), 3), col=c("blue", "red")) #Graphs cancellation rates by deposit type
+plot(round(prop.table(table(hotels$deposit_type, hotels$is_canceled),1), 3),
+     main="Cancellation by Deposit Type",
+     ylab = "Cancellation",
+     col=c("sky blue", "pink")) 
+#Graphs cancellation rates by deposit type
 
 ```
-The cancellation rates for each deposit type is incredible interesting. Among those with non-refundable deposits almost all of those customers ended up canceling their room (99.4%). Unless the data is labeled incorrectly, this is a very surprising findings, with almost all of those customers losing money and still canceling. 
+The cancellation rates for each deposit type is incredible interesting. Among those with non-refundable deposits almost all of those customers ended up canceling their room, about `r deposit_cancel[2, 2]`. This made us doubt that the data was labeled incorrectly, but found in a Kaggle discussion post that the author of the paper, which the dataset is from, addressed this issue: "...through analysis of the “Nonrefundable” (DepositType) canceled bookings in some Asiatic countries (Country) and from certain distribution channels (DistributionChannel and Agent), it is possible to understand why so many “Nonrefundable” bookings are canceled. These bookings are usually made through OTA using false or invalid credit card details. These bookings are issued as support
+for requests for visas to enter the country (a hotel booking is mandatory for applying for a Portuguese entry visa)." This is important information to consider when forecasting demand to make demand-management decisions.
 
 ## Past Customer Behavior
 ```{r}
-round(prop.table(table(hotels$is_repeated_guest, hotels$is_canceled),1), 3) #Calculates cancellation rates based on if they are repeat guest
+repeat_cancel <- round(prop.table(table(hotels$is_repeated_guest, hotels$is_canceled),1), 3) #Calculates cancellation rates based on if they are repeat guest
 
 round(prop.table(table(hotels$previous_cancellations, hotels$is_canceled),1), 3) #Calculates cancellation rates based on number of past canceled stays
 
 table(hotels$previous_cancellations) #Calculates number of entries for each number of previous cancellations (Note that this isn't perfect since some cancellations likely happened within and outside of the cancellation period resulting in double counting of some people)
 ``` 
-As expected the cancellation rate of customers who have previously stayed in the hotels is lower than those who haven't; by about half (37.8% vs 14.5%).
+As expected the cancellation rate of customers who have previously stayed in the hotels is lower than those who haven't; by about half (`r repeat_cancel[1,2]` vs `r repeat_cancel[2,2]`).
 Surprisingly, those who have had 1 previous cancellations have a higher rate of cancellation, but for those with 2-11 cancellations the rate is actually lower than people with no cancellations. It is quite interesting that those with more than 14 cancellations have a cancellation rate of 100%, you would not expect people to make this many bookings (up to 26) to cancel every single time.
 
 ## Exploring Arrival Times & Monthly cancellations
@@ -143,12 +166,13 @@ ggplot(hotels, aes(x=arrival_date_day_of_month, fill =is_canceled)) +
   scale_fill_discrete(labels=c("Not Canceled", "Canceled")) +
   labs(title = "Day of Arrival Distribution") #produces histograms of day of arrival for each month
 
-round(prop.table(table(hotels$arrival_date_month, hotels$is_canceled),1), 3) #Calculates cancellation rates by month
+month_cancel <- round(prop.table(table(hotels$arrival_date_month, hotels$is_canceled),1), 3) #Calculates cancellation rates by month
 
+month_cancel
 #Choose not to do distribution by year due to incomplete data for 2015 & 2017
 ```
 
-The day of month distribution for each month is interesting, showing that in a majority of the months, arrivals peak between the tenth and twentieth. It should be noted that the separation of the cancellation shows that the cancellations follow the pattern of arrivals, as in when more people are set to arrive, more cancellations occur. The proportion table affirms this finding and is provided to show the exact range of cancellation rates for each month; with a range of 30.5-41.5% of bookings are canceled each month, there appears to be little variation among the rates per month. 
+The day of month distribution for each month is interesting, showing that in a majority of the months, arrivals peak between the tenth and twentieth. It should be noted that the separation of the cancellation shows that the cancellations follow the pattern of arrivals, as in when more people are set to arrive, more cancellations occur. The proportion table affirms this finding and is provided to show the exact range of cancellation rates for each month; with a range of `r month_cancel[5,2]` ~ `r month_cancel[7,2]` of bookings are canceled each month, there appears to be little variation among the rates per month. 
 
 ## Booking Changes
 ```{r}
@@ -254,10 +278,11 @@ hotels$reserved_room_type <- as.numeric(hotels$reserved_room_type)
 hotels$assigned_room_type <- as.numeric(hotels$assigned_room_type)
 hotels$RoomAquired <- ifelse(hotels$reserved_room_type == hotels$assigned_room_type,1,0)
 
-round(prop.table(table(hotels$hotel, hotels$RoomAquired), 1), 3)
+acquired <- round(prop.table(table(hotels$hotel, hotels$RoomAquired), 1), 3)
+acquired
 
 ```
-As seen above, neither hotel has a 100% record for assigning guests to the rooms they reserved, with Resort Hotel having a slightly worse success rate of 80.7% vs 90.9%.
+As seen above, neither hotel has a 100% record for assigning guests to the rooms they reserved, with Resort Hotel having a slightly worse success rate of `r acquired[2,2]` vs `r acquired[1,2]`.
 
 ## Special Requests
 ```{r}
