@@ -20,7 +20,6 @@ library(ggplot2) #Calls ggplot
 library(dplyr)
 ```
 # General Analysis
-TEST
 
 ## Arrival Distribution
 ```{r}
@@ -51,11 +50,12 @@ hotels$seasons <- ifelse(hotels$arrival_date_month == "December"|
 sample_n(hotels, 10)
 seasons <- table(hotels$season)
 seasons <- round(prop.table(seasons),digits=3)
+seasons[4]
 
 ggplot(hotels, aes(seasons)) + geom_bar(width = 0.8, fill="blue") +facet_wrap(~hotel) + labs(title = "Seasonal Arrival Distribution") #Produces barplot of arrivals by season for each hotel
 ```
 
-This bar chart depicts another visual of the seasonal changes in arrivals for both hotels. Again, both hotels see the most arrivals in summer and the least in winter. The city hotel sees more drastic changes than the resort hotel as seen on the previous monthly distribution bar plot.
+This bar chart depicts another visual of the seasonal changes in arrivals for both hotels. Again, both hotels see the most arrivals in summer and the least in winter. (Approximately `r seasons[3]` of bookings in the Summer, and `r seasons[4]` in the Winter).The city hotel sees more drastic changes than the resort hotel as seen on the previous monthly distribution bar plot.
 
 
 ```{r}
