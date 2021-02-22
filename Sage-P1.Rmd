@@ -13,9 +13,10 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 # Setup
 ```{r}
-hotels <- read.csv("hotel_bookings.csv", stringsAsFactors = TRUE) #Reads in Hotel Bookings Data
 library(ggplot2) #Calls ggplot
 library(dplyr)
+hotels <- read.csv("hotel_bookings.csv", stringsAsFactors = TRUE) #Reads in Hotel Bookings Data
+hotels$is_canceled <- as.factor(hotels$is_canceled)
 ```
 
 # General Analysis
@@ -72,8 +73,10 @@ From this pie chart, we can see that there are `r hotel_types[1, 2]` City Hotels
 ```{r hotel_cancellation}
 total_cancel_rate <- round(NROW(hotels$is_canceled[hotels$is_canceled == 1])/NROW(hotels$is_canceled), 3)*100 #Returns proportion of bookings that were canceled
 total_cancel_rate
+
 cancel_prop <- round(prop.table(table(hotels$hotel, hotels$is_canceled),1)*100, 3) #Calculates cancellation rates for each hotel
 cancel_prop
+
 city_canceled <- filter(hotels, hotel == "City Hotel")
 city_hotel <- ggplot(city_canceled, aes(x=is_canceled)) +
   geom_bar(aes(fill=is_canceled)) +
@@ -81,6 +84,7 @@ city_hotel <- ggplot(city_canceled, aes(x=is_canceled)) +
   scale_fill_discrete(labels=c("Not Canceled", "Canceled")) +
   labs(y = "Number of Customers", x = "Bookings" , title = "City Hotels Booking Status") #Graph to show the city hotel cancellation
 city_hotel
+
 resort_canceled <- filter(hotels, hotel == "Resort Hotel")
 resort_hotel <- ggplot(resort_canceled, aes(x=is_canceled)) +
   geom_bar(aes(fill=is_canceled) ) +
@@ -118,14 +122,14 @@ We see a similar scenario for the distribution sample, where corporate, direct, 
 ```{r}
 deposit_cancel <- round(prop.table(table(hotels$deposit_type,
                                          hotels$is_canceled),1), 3) #Calculates cancellation rates by deposit type
-deposit_cancel[2,2]
+
 plot(round(prop.table(table(hotels$deposit_type, hotels$is_canceled),1), 3),
      main="Cancellation by Deposit Type",
      ylab = "Cancellation",
-     col=c("sky blue", "pink")) 
+     col=c("sky blue", "pink"))
 #Graphs cancellation rates by deposit type
 ```
-The cancellation rates for each deposit type is incredibly interesting. Among those with non-refundable deposits almost all of those customers ended up canceling their room, about `r deposit_cancel[2, 2]`. This made us doubt that the data was labeled incorrectly, but found in a Kaggle discussion post that the author of the paper, which the dataset is from, addressed this issue: "...through analysis of the “Nonrefundable” (DepositType) canceled bookings in some Asiatic countries (Country) and from certain distribution channels (DistributionChannel and Agent), it is possible to understand why so many “Nonrefundable” bookings are canceled. These bookings are usually made through OTA using false or invalid credit card details. These bookings are issued as support
+The cancellation rates for each deposit type is incredibly interesting. Among those with non-refundable deposits almost all of those customers ended up canceling their room, about `r deposit_cancel[2, 2]`. This made us doubt that the data was labeled incorrectly, but found in a Kaggle discussion post that the author of the paper, which the data set is from, addressed this issue: "...through analysis of the “Nonrefundable” (Deposit Type) canceled bookings in some Asiatic countries (Country) and from certain distribution channels (Distribution Channel and Agent), it is possible to understand why so many “Nonrefundable” bookings are canceled. These bookings are usually made through OTA using false or invalid credit card details. These bookings are issued as support
 for requests for visas to enter the country (a hotel booking is mandatory for applying for a Portuguese entry visa)." This is important information to consider when forecasting demand to make demand-management decisions.
 
 ## Past Customer Behavior
@@ -158,28 +162,46 @@ ggplot(hotels, aes(x=booking_changes, fill = is_canceled)) +
   coord_cartesian(xlim = c(0,6)) +
   scale_fill_discrete(labels=c("Not Canceled", "Canceled"))
 ```
-Above are histograms showing the count of bookings by number of booking changes for each hotel. We see that with each hotel, the vast majority of bookings are not changed.
+Above are histograms showing the count of bookings by number of booking changes for each hotel. We see that with each hotel, the vast majority of bookings are not changed. The distribution appear to both be skewed right.
 
 # Exploring Booking Details
 
 ## Adults, Children, & Babies
 ```{r}
 hotels$guests <- hotels$adults + hotels$children + hotels$babies #creates parameter of all guests on booking
-ggplot(data=hotels, aes(adults)) +geom_histogram(binwidth = 1, fill="blue") + coord_cartesian(xlim = c(0,5))+facet_wrap(~hotel)
+ggplot(data=hotels, aes(adults)) +
+  geom_histogram(binwidth = 1, fill="blue") +
+  coord_cartesian(xlim = c(0,5))+facet_wrap(~hotel) +
+  labs(title = "Adults by Hotel")
 #Histogram of number adults for each hotel
-ggplot(data=hotels, aes(children)) +geom_histogram(binwidth = 1, fill="red") + coord_cartesian(xlim = c(1,5), ylim = c(0,6000))+facet_wrap(~hotel)
+ggplot(data=hotels, aes(children)) +
+  geom_histogram(binwidth = 1, fill="red") +
+  coord_cartesian(xlim = c(1,5), ylim = c(0,6000))+facet_wrap(~hotel) +
+  labs(title="Children by Hotel")
 #Histogram of number children for each hotel
-ggplot(data=hotels, aes(babies)) +geom_histogram(binwidth = 1, fill="red") + coord_cartesian(xlim = c(1,5), ylim = c(0,750))+facet_wrap(~hotel)
+ggplot(data=hotels, aes(babies)) +
+  geom_histogram(binwidth = 1, fill="red") +
+  coord_cartesian(xlim = c(1,5), ylim = c(0,750))+facet_wrap(~hotel) +
+  labs(title="Babies by Hotel")
 #Histogram of number babies for each hotel
-ggplot(data=hotels, aes(guests)) +geom_histogram(binwidth = 1, fill="dark green") + coord_cartesian(xlim = c(0,7))+facet_wrap(~hotel)
+ggplot(data=hotels, aes(guests)) +geom_histogram(binwidth = 1, fill="dark green") +
+  coord_cartesian(xlim = c(0,7)) +
+  facet_wrap(~hotel) +
+  labs(title="Total Guests by Hotel")
 #Histogram of total number of guests for each hotel
 ```
 Above are histograms for the number of adults, children, babies, and all guests total for each hotel. Overwhelmingly the most common amount of adults is two, likely indicating that people typically travel as a couple or partnership. Since such a large portion of people travel without children or babies, the children and babies histograms start at 1. Most bookings with children only have 1, while the proportion of people have two children is much closer to one child for the resort hotel, possibly due to more people traveling to the resort for non-business purposes. For babies, it is overwhelmingly dominated by having only one baby for a booking. Besides the number of children distinction already mentioned, the distributions for each hotel are quite similar.
 
 ### Relationships between Adults & Children and Parking Spots Needed & Guests
 ```{r}
-ggplot(data = hotels, aes(x=adults, y =children, color = "blue")) + geom_point(alpha=1/5) + coord_cartesian(xlim = c(0,10)) #creates scatter plot of number of adults and children on bookings
-ggplot(data =hotels, aes(x=guests, y=required_car_parking_spaces, color = "blue")) + geom_point(alpha=1/5) #creates scatter plot of guests & number of parking spots required
+ggplot(data = hotels, aes(x=adults, y =children, color = "blue")) +
+  geom_point(alpha=1/5) +
+  coord_cartesian(xlim = c(0,10)) +
+  labs(title='Adults with Kids/Babies') #creates scatter plot of number of adults and children on bookings
+
+ggplot(data =hotels, aes(x=guests, y=required_car_parking_spaces, color = "blue")) +
+  geom_point(alpha=1/5) +
+  labs(title='Parking Spots vs. Total Guests')#creates scatter plot of guests & number of parking spots required
 ```
 Above the scatter plots are provided comparing the relationship between adults and children as well as the amount of guests on a booking and the amount of parking spots requested. As you can see, neither relationship appears to have significant patterns. It is interesting to note that for large amounts of guests, parking spots are not requested past ~8 guests. 
 
@@ -193,12 +215,14 @@ meals_with_kids <- meals_with_kids %>%
   mutate(meal_percent = round(Freq / nrow(kids), 3)*100) %>%
   rename(meal_type = Var1, number_of_meals = Freq)
 meals_with_kids
+
 ggplot(meals_with_kids, aes(x="", y=meal_percent, fill=meal_type)) +
   geom_bar(width = 1, stat = "identity", color = "white") +
   coord_polar('y', start = 0) +
   geom_text(aes(y = meal_percent, label=meal_percent), position=position_stack(vjust=0.5), color = "black") +
   theme_void() +
   labs(title = "Perentage of Meals Bought by Adults with Kids")
+
 # Seeing the type of meals families with no kids buy
 no_kids <- hotels %>%
   filter(children == 0)
@@ -207,6 +231,7 @@ meals_with_no_kids <- meals_with_no_kids %>%
   mutate(meal_percent = round(Freq / nrow(no_kids), 3)*100) %>%
   rename(meal_type = Var1, number_of_meals = Freq)
 meals_with_no_kids
+
 ggplot(meals_with_no_kids, aes(x="", y=meal_percent, fill=meal_type)) +
   geom_bar(width = 1, stat = "identity", color = "white") +
   coord_polar('y', start = 0) +
@@ -225,6 +250,7 @@ mean_adr_agent <- hotels %>%
 mean_adr_no_agent <- hotels %>%
   filter(agent == 'NULL') %>%
   summarize(mean_adr_no_agent = round(mean(adr, na.rm = TRUE), 2))
+
 mean_adr_agent
 mean_adr_no_agent
 ```
@@ -244,9 +270,9 @@ As seen above, neither hotel has a 100% record for assigning guests to the rooms
 
 ## Special Requests
 ```{r}
-ggplot(data = hotels, aes(total_of_special_requests)) + geom_histogram(fill="blue") + facet_wrap(~hotel)
-plot(hotels$total_of_special_requests,hotels$children)
-plot(hotels$total_of_special_requests,hotels$babies)
+ggplot(data = hotels, aes(total_of_special_requests)) + geom_histogram(fill="blue") + facet_wrap(~hotel) + labs(title="Distribution of Special Requests")
+plot(hotels$total_of_special_requests,hotels$children, main="Special Requests vs. Number of Children")
+plot(hotels$total_of_special_requests,hotels$babies, main="Special Requests vs. Number of Babies")
 ```
 Both hotels have similar distributions of special requests made, with most guests making 0 and a very small amount making more than 4. Neither amount of children or babies have a strong relationship with the amount of requests made. 
 
@@ -262,8 +288,6 @@ Both hotels have similar distributions of special requests made, with most guest
 
 - Customers booked through agents pay more on average, but the cancellation rate is also high.
 
-- Customers booked through agents pay more on average, but the cancellation rate is also high.
-
 - The longer the lead time, the more likely customers are to cancel it.
 
 - Although city hotels have more bookings, they also tend to have more cancellations.
@@ -272,7 +296,7 @@ Both hotels have similar distributions of special requests made, with most guest
 ## Business Implication
 - Hotels have insight into customers' meal preferences and room preferences, which will help hotels consider package options and conduct events to attract customers to generate more revenue.
 
-- Resort hotels tend to have less bookings than city hotels, so they will need to work on their marketing.
+- Resort hotels tend to have less bookings than city hotels, so they will need to work on their marketing. This under the assumption that both hotel types have the same capacity.
 
 - Hotels can conduct additional research, such as a TA/TO survey, to gain insight into why customers who booked a room through agents have a higher cancellation rate. It will help them analyze the booking rates and potential income.
 
@@ -280,4 +304,7 @@ Both hotels have similar distributions of special requests made, with most guest
 
 - City hotels could sell more non-refundable bookings during peak times or apply stricter refund policies to prevent revenue loss from the cancellations.
 
-- Even though June-August happens to be the busiest months but so the hotels should target more customers by providing more value package options to maximize the revenue.
+- Since June-August happens to be the busiest months, hotels should target more customers during this time by providing more value package options to maximize the revenue than in the other months.
+
+
+
